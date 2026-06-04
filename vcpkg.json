@@ -1,0 +1,17 @@
+{
+  "name": "truepass",
+  "version": "0.1.0",
+  "dependencies": [
+    "ctre",
+    {
+      "name": "drogon",
+      "features": [
+        "postgres"
+      ]
+    },
+    "glaze",
+    "jsoncpp",
+    "thorvg",
+    "zlib"
+  ]
+}

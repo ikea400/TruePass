@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainVaultPageClass</class>
+ <widget class="QMainWindow" name="MainVaultPageClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1100</width>
+    <height>575</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>TruePass</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../../resource.qrc">
+    <normaloff>:/img/img/Icon.ico</normaloff>:/img/img/Icon.ico</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="horizontalLayout_5">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <layout class="QVBoxLayout" name="vaultVerticalLayout" stretch="0,2,3,4">
+        <property name="sizeConstraint">
+         <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
+        </property>
+        <item>
+         <widget class="QListView" name="vaultListView">
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="newVaultButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>New vault</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="line_2">
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QListWidget" name="categoryList_2">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QListWidget::item {
+    background: White;
+}
+
+QListWidget::item:hover {
+    background: None;
+}
+
+QListWidget::item {
+    background: white;
+}
+
+QListWidget::item:selected {
+    background: none;  /* Custom background color for selected item */
+}
+
+QListWidget::item::icon {  
+	color: black;
+ }
+
+
+</string>
+          </property>
+          <property name="currentRow">
+           <number>-1</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>All items</string>
+           </property>
+           <property name="font">
+            <font>
+             <kerning>true</kerning>
+            </font>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../resource.qrc">
+             <normaloff>:/icons/icons/filter.svg</normaloff>:/icons/icons/filter.svg</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Favorite</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../resource.qrc">
+             <normaloff>:/icons/icons/star.svg</normaloff>:/icons/icons/star.svg</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="foreground">
+            <brush brushstyle="NoBrush">
+             <color alpha="255">
+              <red>255</red>
+              <green>0</green>
+              <blue>0</blue>
+             </color>
+            </brush>
+           </property>
+           <property name="flags">
+            <set>NoItemFlags</set>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>TYPES</string>
+           </property>
+           <property name="whatsThis">
+            <string/>
+           </property>
+           <property name="font">
+            <font>
+             <bold>true</bold>
+             <underline>false</underline>
+            </font>
+           </property>
+           <property name="flags">
+            <set>ItemIsDragEnabled|ItemIsUserCheckable</set>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Login</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../resource.qrc">
+             <normaloff>:/icons/icons/login.svg</normaloff>:/icons/icons/login.svg</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Card</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../resource.qrc">
+             <normaloff>:/icons/icons/card.svg</normaloff>:/icons/icons/card.svg</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Identity</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../resource.qrc">
+             <normaloff>:/icons/icons/idcard.svg</normaloff>:/icons/icons/idcard.svg</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Note</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../resource.qrc">
+             <normaloff>:/icons/icons/note.svg</normaloff>:/icons/icons/note.svg</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>SSH key</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../resource.qrc">
+             <normaloff>:/icons/icons/key.svg</normaloff>:/icons/icons/key.svg</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Document</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../resource.qrc">
+             <normaloff>:/icons/icons/file.svg</normaloff>:/icons/icons/file.svg</iconset>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="itemsVerticalLayout">
+        <item>
+         <widget class="QLineEdit" name="searchInput">
+          <property name="maximumSize">
+           <size>
+            <width>225</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="inputMask">
+           <string/>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+          <property name="placeholderText">
+           <string>🔎︎ Search vault</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QListView" name="itemsListView">
+          <property name="maximumSize">
+           <size>
+            <width>225</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="newItemButton">
+          <property name="maximumSize">
+           <size>
+            <width>225</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>New item</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="infoVerticalLayout" stretch="0">
+        <item>
+         <widget class="ItemInfoWidget" name="itemWidget" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1100</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ItemInfoWidget</class>
+   <extends>QWidget</extends>
+   <header>../ItemInfoWidget/ItemInfoWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../../../resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>

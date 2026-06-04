@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>ikea400</author>
+ <class>EditLoginItemClass</class>
+ <widget class="QWidget" name="EditLoginItemClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>EditLoginItem</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <property name="spacing">
+            <number>3</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="usernameLabel">
+             <property name="text">
+              <string>Username</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <property name="spacing">
+              <number>1</number>
+             </property>
+             <item>
+              <widget class="QLineEdit" name="usernameInput">
+               <property name="maxLength">
+                <number>32</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="CopyButton" name="copyUsernameButton">
+               <property name="toolTip">
+                <string>Copy username to clipboard</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../resource.qrc">
+                 <normaloff>:/icons/icons/copy.svg</normaloff>:/icons/icons/copy.svg</iconset>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <property name="spacing">
+            <number>3</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="emailLabel">
+             <property name="text">
+              <string>Email</string>
+             </property>
+             <property name="buddy">
+              <cstring>emailInput</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <property name="spacing">
+              <number>1</number>
+             </property>
+             <item>
+              <widget class="QLineEdit" name="emailInput">
+               <property name="maxLength">
+                <number>255</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="CopyButton" name="copyEmailButton">
+               <property name="toolTip">
+                <string>Copy email to clipboard</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../resource.qrc">
+                 <normaloff>:/icons/icons/copy.svg</normaloff>:/icons/icons/copy.svg</iconset>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <property name="spacing">
+          <number>3</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="passwordLabel">
+           <property name="text">
+            <string>Password</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <property name="spacing">
+            <number>1</number>
+           </property>
+           <item>
+            <widget class="QLineEdit" name="passwordInput">
+             <property name="maxLength">
+              <number>128</number>
+             </property>
+             <property name="echoMode">
+              <enum>QLineEdit::EchoMode::Password</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="PasswordRevealButton" name="revealPasswordButton">
+             <property name="toolTip">
+              <string>Reveal password</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../../../resource.qrc">
+               <normaloff>:/icons/icons/eye-show.svg</normaloff>:/icons/icons/eye-show.svg</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="generatePasswordButton">
+             <property name="toolTip">
+              <string>Generate password</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../../../resource.qrc">
+               <normaloff>:/icons/icons/generate.svg</normaloff>:/icons/icons/generate.svg</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="CopyButton" name="copyPasswordButton">
+             <property name="toolTip">
+              <string>Copy password to clipboard</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../../../resource.qrc">
+               <normaloff>:/icons/icons/copy.svg</normaloff>:/icons/icons/copy.svg</iconset>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_8">
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="websiteLabel">
+         <property name="text">
+          <string>Website</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <property name="spacing">
+          <number>1</number>
+         </property>
+         <item>
+          <widget class="QLineEdit" name="websiteInput">
+           <property name="maxLength">
+            <number>255</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="CopyButton" name="copyWebsiteButton">
+           <property name="toolTip">
+            <string>Copy website to clipboard</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../resource.qrc">
+             <normaloff>:/icons/icons/copy.svg</normaloff>:/icons/icons/copy.svg</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,1">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_9">
+         <property name="spacing">
+          <number>3</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="totpLabel">
+           <property name="text">
+            <string>Authenticator Key (TOTP)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="totpSecretInput">
+           <property name="maxLength">
+            <number>104</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_10">
+         <property name="spacing">
+          <number>3</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <item>
+            <widget class="TotpLoadingWidget" name="widget" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LayoutDirection::LeftToRight</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="TotpLabel" name="codeLabel">
+             <property name="text">
+              <string>‒‒‒ ‒‒‒</string>
+             </property>
+             <property name="buddy">
+              <cstring>copyCodeButton</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="TotpCopyButton" name="copyCodeButton">
+             <property name="toolTip">
+              <string>Copy code to clipboard</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../../../resource.qrc">
+               <normaloff>:/icons/icons/copy.svg</normaloff>:/icons/icons/copy.svg</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Orientation::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Orientation::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>CopyButton</class>
+   <extends>QPushButton</extends>
+   <header>../Components/CopyButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PasswordRevealButton</class>
+   <extends>QPushButton</extends>
+   <header>../Components/PasswordRevealButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TotpLoadingWidget</class>
+   <extends>QWidget</extends>
+   <header>../Components/TotpLoadingWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TotpLabel</class>
+   <extends>QLabel</extends>
+   <header>../Components/TotpLabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TotpCopyButton</class>
+   <extends>QPushButton</extends>
+   <header>../Components/TotpCopyButton.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>usernameInput</tabstop>
+  <tabstop>emailInput</tabstop>
+  <tabstop>passwordInput</tabstop>
+  <tabstop>websiteInput</tabstop>
+  <tabstop>totpSecretInput</tabstop>
+  <tabstop>copyPasswordButton</tabstop>
+  <tabstop>copyCodeButton</tabstop>
+  <tabstop>generatePasswordButton</tabstop>
+  <tabstop>copyUsernameButton</tabstop>
+  <tabstop>revealPasswordButton</tabstop>
+  <tabstop>copyEmailButton</tabstop>
+  <tabstop>copyWebsiteButton</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../../../resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>
