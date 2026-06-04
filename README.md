@@ -129,13 +129,9 @@ ctest --test-dir build
 
 ## Screenshots
 
-Add UI screenshots here to showcase the desktop application.
+![alt text](./docs/screenshots/login.png)
 
-Suggested layout:
-
-- docs/screenshots/login.png
-  ![alt text](./docs/screenshots/login.png)
-  ![Main page image](./docs/screenshots/main-page.png)
+![Main page image](./docs/screenshots/main-page.png)
 
 ## Project Structure
 
