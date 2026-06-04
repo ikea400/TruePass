@@ -15,7 +15,7 @@ LoginWidget::LoginWidget(QWidget* parent) : QWidget(parent) {
                    &LoginWidget::onUsernameEditingFinished);
   QObject::connect(ui.passwordInput, &QLineEdit::editingFinished, this,
                    &LoginWidget::onPasswordEditingFinished);
-  QObject::connect(ui.loginButton, &QPushButton::clicked, this,
+  QObject::connect(ui.loginButton, &LoadingButton::loadingStarted, this,
                    &LoginWidget::onLoginClicked);
 }
 
