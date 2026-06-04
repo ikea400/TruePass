@@ -139,13 +139,13 @@ Suggested layout:
 
 ## Project Structure
 
-`	ext
+```text
 TruePass/
-├── common/   # Shared crypto, DTOs, validation, utilities
-├── server/   # Backend API
-├── client/   # Qt desktop client
+├── common/       # Shared crypto, DTOs, validation, utilities
+├── server/       # Backend API
+├── client/       # Qt desktop client
 └── CMakeLists.txt
-`
+```
 
 ## Notes
 
@@ -156,4 +156,4 @@ TruePass/
 
 ## License
 
-Add the project license here once it is finalized.
+This project is licensed under the MIT License. See [LICENSE.txt](./LICENSE.txt) for more
