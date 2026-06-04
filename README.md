@@ -1,31 +1,16 @@
 ![Project Banner](./docs/screenshots/banner.png)
 
-TruePass is a secure password manager built around a client/server architecture. It combines a Qt desktop client, a Drogon-based backend, and a shared C++ cryptography and data layer.er architecture. It combines a Qt desktop client, a Drogon-based backend, and a shared C++ cryptography and data layer.
-
-## Overview
-
-TruePass is designed to manage vaults and sensitive items such as logins and card data while keeping authentication and cryptographic operations in dedicated layers.
-
-The project is split into three main parts:
-
-- common — shared DTOs, validation, utilities, and cryptographic primitives
-- server — HTTP API and persistence-facing services
-- client — Qt desktop application for end users
+TruePass is a secure, zero-knowledge password manager built on a client/server architecture. It features end-to-end encryption (E2E) and uses the OPAQUE augmented PAKE protocol for secure authentication, ensuring the server never handles or stores user master passwords.
 
 ## Features
 
-- Secure registration and login flow using OPAQUE
-- Device-bound authentication support
-- Vault management
-- Vault item management
-- Login item support
-- Card item support
-- Password generation
-- TOTP support
-- Shared cryptographic utilities
-- Validation helpers for user input
-- Cross-platform client infrastructure with platform-specific TPM providers
-- Unit tests for core cryptographic and utility components
+- **End-to-End Encrypted**: All sensitive data is encrypted on the client side before synchronization.
+- **Zero-Knowledge Model**: The server has no access to user passwords or decrypted vault contents.
+- **OPAQUE (Augmented PAKE)**: Secure registration and login flow where the server never sees the plaintext master password.
+- **Cross-Platform Client**: Built with Qt 6, featuring platform-specific TPM integration.
+- **Device-Bound Auth**: Support for hardware-backed authentication.
+- **Comprehensive Vault Management**: Support for logins, cards, TOTP, and secure password generation.
+- **Robust Cryptography**: Shared library providing Argon2, AES-GCM, and curve-based utilities.
 
 ## Architecture
 
@@ -63,59 +48,38 @@ The client is a Qt desktop application that provides:
 
 ## Tech Stack
 
-- C++23
-- CMake 3.22+
-- MSVC / GCC / Clang
-- Qt 6
-- Drogon
-- OpenSSL
-- JsonCpp
-- glaze
-- ctre
-- ThorVG
-- OPAQUE implementation through opaquepp
-- GoogleTest for unit tests
+- **Languages/Frameworks**: C++23, Qt 6, Drogon, CMake 3.22+
+- **Cryptography**: [OpenSSL](https://www.openssl.org/), [opaque-ke](https://github.com/facebook/opaque-ke) (via [opaquepp](https://github.com/ikea400/opaquepp))
+- **Serialization/Utilities**: [glaze](https://github.com/stephenberry/glaze), [ctre](https://github.com/hanickadot/compile-time-regular-expressions), [JsonCpp](https://github.com/open-source-parsers/jsoncpp)
+- **UI/Graphics**: [ThorVG](https://github.com/thorvg/thorvg)
+- **Testing**: [GoogleTest](https://github.com/google/googletest)
 
 ## Prerequisites
 
-Install the required build and runtime dependencies for your platform:
-
-- A C++23-capable compiler
-- CMake 3.22 or later
-- Qt 6
-- OpenSSL
-- Drogon
-- JsonCpp
-- glaze
-- ctre
-- ThorVG
-- OPAQUE library dependencies
-- GoogleTest for test builds
-
-If you use a package manager such as vcpkg, install the matching packages there or through your platform package manager.
+Install the required build and runtime dependencies (compiler, CMake, Qt 6, OpenSSL, etc.). If using `vcpkg`, install the matching packages or use the provided configuration.
 
 ## Build
 
 From the repository root:
 
-`bash
+```bash
 cmake -S . -B build
 cmake --build build
-`
+```
 
 ## Run
 
 ### Server
 
-The server loads its configuration from config.json and starts the HTTP service.
+The server loads its configuration from `config.json` and starts the HTTP service.
 
 ### Client
 
-The client starts a Qt application and connects to the server at:
+The client starts a Qt application and connects to the server. Default endpoint:
 
-`	ext
+```text
 https://localhost:443
-`
+```
 
 Make sure the server is running before launching the client.
 
@@ -123,9 +87,9 @@ Make sure the server is running before launching the client.
 
 Run the test suite from the build directory:
 
-`bash
+```bash
 ctest --test-dir build
-`
+```
 
 ## Screenshots
 
