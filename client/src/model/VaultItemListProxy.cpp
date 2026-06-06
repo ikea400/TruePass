@@ -1,5 +1,6 @@
 #include "VaultItemListProxy.h"
 
+#include "../dto/VaultItemMetadataDto.h"
 #include "VaultItemListModel.h"
 
 VaultItemListProxy::VaultItemListProxy(QObject* parent)
@@ -50,6 +51,11 @@ bool VaultItemListProxy::filterAcceptsItemType(const QModelIndex& index) const {
       QVariant typeData = sourceModel()->data(index, TypeRole);
       return typeData.isValid() &&
              typeData.value<VaultItemType>() == VaultItemType::Login;
+    }
+    case VaultItemFilterType::Card: {
+      QVariant typeData = sourceModel()->data(index, TypeRole);
+      return typeData.isValid() &&
+             typeData.value<VaultItemType>() == VaultItemType::Card;
     }
   }
 

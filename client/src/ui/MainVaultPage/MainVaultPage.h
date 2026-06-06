@@ -1,6 +1,7 @@
 #pragma once
 #include <utils/uuid.h>
 
+#include <QListWidgetItem>
 #include <QMainWindow>
 
 #include "../AddItemDialog/AddItemDialog.h"
@@ -36,6 +37,7 @@ class MainVaultPage : public QMainWindow {
  public slots:
   void onNewVaultButtonClicked();
   void onShow();
+  void onFilterCategoryChanged(int currentRow);
   void onSearchTextChanged(const QString& text);
   void onVaultListUpdated();
   void onVaultListUpdateFailed(const QString& error);

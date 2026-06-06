@@ -4,6 +4,7 @@
 
 #include <QAbstractItemModelTester>
 #include <QMessageBox>
+#include <algorithm>
 
 #include "../../model/VaultItemListModel.h"
 #include "../../model/VaultItemListProxy.h"
@@ -23,6 +24,8 @@ MainVaultPage::MainVaultPage(QWidget* parent) : QMainWindow(parent) {
 
   connect(m_ui.searchInput, &QLineEdit::textChanged, this,
           &MainVaultPage::onSearchTextChanged);
+  connect(m_ui.categoryList_2, &QListWidget::currentRowChanged, this,
+          &MainVaultPage::onFilterCategoryChanged);
   connect(m_ui.newVaultButton, &QPushButton::clicked, this,
           &MainVaultPage::onNewVaultButtonClicked);
   connect(m_ui.newItemButton, &QPushButton::clicked, this,
@@ -59,6 +62,30 @@ void MainVaultPage::setVaultItemListModel(VaultItemListModel* model) {
 }
 
 void MainVaultPage::onShow() { emit updateVaultList(); }
+
+void MainVaultPage::onFilterCategoryChanged(int currentRow) {
+  // These are currently hardcoded in the .ui file
+  constexpr int kCategoryAllItems = 0;
+  constexpr int kCategoryFavorited = 1;
+
+  constexpr int kCategoryLogin = 4;
+  constexpr int kCategoryCard = 5;
+
+  switch (currentRow) {
+    case kCategoryFavorited:
+      m_vaultItemListProxy->setFilterType(VaultItemFilterType::Favorites);
+      break;
+    case kCategoryLogin:
+      m_vaultItemListProxy->setFilterType(VaultItemFilterType::Login);
+      break;
+    case kCategoryCard:
+      m_vaultItemListProxy->setFilterType(VaultItemFilterType::Card);
+      break;
+    default:
+      m_vaultItemListProxy->setFilterType(VaultItemFilterType::All);
+      break;
+  }
+}
 
 void MainVaultPage::onSearchTextChanged(const QString& text) {
   m_vaultItemListProxy->setSearchQuery(text);
