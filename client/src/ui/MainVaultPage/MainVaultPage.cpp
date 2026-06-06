@@ -4,7 +4,6 @@
 
 #include <QAbstractItemModelTester>
 #include <QMessageBox>
-#include <algorithm>
 
 #include "../../model/VaultItemListModel.h"
 #include "../../model/VaultItemListProxy.h"

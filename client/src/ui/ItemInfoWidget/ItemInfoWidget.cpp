@@ -79,9 +79,6 @@ void ItemInfoWidget::onFavoriteClicked() {
   if (!m_currentModel.has_value()) return;
 
   const auto& item = m_currentModel.value();
-  bool newFavoriteState = !item.isFavorite();
-
-  updateFavoriteButtonIcon(newFavoriteState);
 
   ikea400::uuid itemId =
       ikea400::uuid::fromString<false>(item.getId().toStdString());
@@ -89,6 +86,10 @@ void ItemInfoWidget::onFavoriteClicked() {
     qWarning() << "Invalid item ID for favorite toggle";
     return;
   }
+
+  bool newFavoriteState = !item.isFavorite();
+  m_currentModel->setIsFavorite(newFavoriteState);
+  updateFavoriteButtonIcon(newFavoriteState);
 
   emit toggleFavorite(m_currentVaultId, itemId, newFavoriteState);
 }

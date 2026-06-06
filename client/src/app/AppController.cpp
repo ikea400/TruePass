@@ -287,6 +287,9 @@ void AppController::onItemEdited(const ikea400::uuid& vaultId,
 void AppController::onToggleFavorite(const ikea400::uuid& vaultId,
                                      const ikea400::uuid& itemId,
                                      bool isFavorite) {
+  if (auto itemOpt = m_vaultManager->getVaultItem(vaultId, itemId); itemOpt) {
+    m_vaultItemListModel->updateItem(*itemOpt);
+  }
   m_vaultManager->toggleFavorite(vaultId, itemId, isFavorite);
 }
 

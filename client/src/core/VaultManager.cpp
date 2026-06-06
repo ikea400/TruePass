@@ -463,13 +463,11 @@ void VaultManager::toggleFavorite(uuid vaultId, uuid itemId, bool isFavorite) {
     return;
   }
 
-  // Update the favorite state in the existing item
-  existingItem->setFavorite(isFavorite);
-
   // Create a new item with the updated favorite state
   VaultItem updatedItem;
   try {
     VaultItemModel model = existingItem->toModel(*vault);
+    model.setIsFavorite(isFavorite);
     updatedItem = VaultItem::createFromModel(model, *vault);
   } catch (const std::exception& e) {
     qWarning() << "Failed to create vault item from model for favorite toggle:"
@@ -512,6 +510,9 @@ void VaultManager::toggleFavorite(uuid vaultId, uuid itemId, bool isFavorite) {
 
 void VaultManager::onFavoriteToggled(uuid vaultId, uuid itemId,
                                      bool isFavorite) noexcept {
+  if (auto* item = findVaultItem(vaultId, itemId)) {
+    item->setFavorite(isFavorite);
+  }
   emit favoriteToggled(vaultId, itemId, isFavorite);
 }
 

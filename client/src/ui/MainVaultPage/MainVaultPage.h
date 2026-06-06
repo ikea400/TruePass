@@ -1,7 +1,6 @@
 #pragma once
 #include <utils/uuid.h>
 
-#include <QListWidgetItem>
 #include <QMainWindow>
 
 #include "../AddItemDialog/AddItemDialog.h"
