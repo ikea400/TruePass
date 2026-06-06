@@ -11,32 +11,31 @@
 
 #include "LottieAnimation.h"
 
-class LoadingButton : public QPushButton
-{
+class LoadingButton : public QPushButton {
   Q_OBJECT
 
-public:
-  LoadingButton(QWidget *parent = nullptr) noexcept;
+ public:
+  LoadingButton(QWidget* parent = nullptr) noexcept;
 
   virtual ~LoadingButton() noexcept;
 
-  void setText(const QString &text);
+  void setText(const QString& text);
 
   void startLoading() noexcept;
   void stopLoading() noexcept;
 
   void setMinClickDelay(int delayMs) noexcept;
 
-signals:
+ signals:
   void loadingStarted();
 
-public slots:
+ public slots:
   void onClicked() noexcept;
 
-protected:
-  virtual void paintEvent(QPaintEvent *event) override;
+ protected:
+  virtual void paintEvent(QPaintEvent* event) override;
 
-private:
+ private:
   QString m_originalText;
   bool m_loading;
   QTimer m_clickDelayTimer;

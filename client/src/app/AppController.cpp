@@ -63,6 +63,8 @@ AppController::AppController() {
           &AppController::onOpenItemRequested);
   connect(m_mainVaultPage, &MainVaultPage::editItem, this,
           &AppController::onEditItem);
+  connect(m_mainVaultPage, &MainVaultPage::toggleFavorite, this,
+          &AppController::onToggleFavorite);
 
   connect(m_vaultManager.get(), &VaultManager::vaultListUpdated, this,
           &AppController::onVaultListUpdated);
@@ -88,6 +90,8 @@ AppController::AppController() {
           &AppController::onItemEdited);
   connect(m_vaultManager.get(), &VaultManager::editItemFailed, this,
           &AppController::onEditItemError);
+  connect(m_vaultManager.get(), &VaultManager::favoriteToggled, this,
+          &AppController::onFavoriteToggled);
 }
 
 AppController::~AppController() {
@@ -275,10 +279,21 @@ void AppController::onEditItemError(const QString& error) {
 void AppController::onItemEdited(const ikea400::uuid& vaultId,
                                  const VaultItem& item,
                                  const VaultItemModel& itemModel) {
-
   m_vaultItemListModel->updateItem(item);
 
   m_mainVaultPage->onItemEdited(vaultId, itemModel);
+}
+
+void AppController::onToggleFavorite(const ikea400::uuid& vaultId,
+                                     const ikea400::uuid& itemId,
+                                     bool isFavorite) {
+  m_vaultManager->toggleFavorite(vaultId, itemId, isFavorite);
+}
+
+void AppController::onFavoriteToggled(const ikea400::uuid& vaultId,
+                                      const ikea400::uuid& itemId,
+                                      bool isFavorite) {
+  m_mainVaultPage->onFavoriteToggled(vaultId, itemId, isFavorite);
 }
 
 void AppController::showWelcomePage() noexcept {

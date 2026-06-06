@@ -29,6 +29,8 @@ MainVaultPage::MainVaultPage(QWidget* parent) : QMainWindow(parent) {
           &MainVaultPage::onAddItemButtonClicked);
   connect(m_ui.itemWidget, &ItemInfoWidget::editItem, this,
           &MainVaultPage::editItem);
+  connect(m_ui.itemWidget, &ItemInfoWidget::toggleFavorite, this,
+          &MainVaultPage::onToggleFavorite);
 
   setAttribute(Qt::WA_WState_ExplicitShowHide, true);
 }
@@ -185,6 +187,20 @@ void MainVaultPage::onItemEdited(const ikea400::uuid& vaultId,
                                  const VaultItemModel& item) {
   if (vaultId == getSelectedVaultId()) {
     m_ui.itemWidget->onItemEdited(vaultId, item);
+  }
+}
+
+void MainVaultPage::onToggleFavorite(const ikea400::uuid& vaultId,
+                                     const ikea400::uuid& itemId,
+                                     bool isFavorite) {
+  emit toggleFavorite(vaultId, itemId, isFavorite);
+}
+
+void MainVaultPage::onFavoriteToggled(const ikea400::uuid& vaultId,
+                                      const ikea400::uuid& itemId,
+                                      bool isFavorite) {
+  if (vaultId == getSelectedVaultId()) {
+    m_ui.itemWidget->onFavoriteToggled(vaultId, itemId, isFavorite);
   }
 }
 

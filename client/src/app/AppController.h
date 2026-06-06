@@ -47,6 +47,10 @@ class AppController : public QObject {
   void onEditItemError(const QString& error);
   void onItemEdited(const ikea400::uuid& vaultId, const VaultItem& item,
                     const VaultItemModel& itemModel);
+  void onToggleFavorite(const ikea400::uuid& vaultId,
+                        const ikea400::uuid& itemId, bool isFavorite);
+  void onFavoriteToggled(const ikea400::uuid& vaultId,
+                         const ikea400::uuid& itemId, bool isFavorite);
 
  private:
   void showWelcomePage() noexcept;

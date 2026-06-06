@@ -294,6 +294,7 @@ VaultItemModel VaultItem::toModel(const Vault& vault) const {
   VaultItemModel model;
   model.setName(QString::fromStdString(m_name));
   model.setId(QString::fromStdString(m_id.toString()));
+  model.setIsFavorite(m_isFavorite);
 
   switch (m_type) {
     case dto::VaultItemType::Login: {
