@@ -435,6 +435,87 @@ void VaultManager::editItem(const VaultItemModel& item, uuid vaultId) {
       });
 }
 
+void VaultManager::toggleFavorite(uuid vaultId, uuid itemId, bool isFavorite) {
+  if (checkIsWorking("toggleFavorite")) {
+    onEditItemError(
+        QString::fromStdString(std::string(kErrorOperationInProgress)), false);
+    return;
+  }
+
+  Vault* vault = findVault(vaultId);
+  if (!vault) {
+    qWarning() << "Vault not found for toggling favorite:"
+               << vaultId.toString().c_str();
+    onEditItemError(QString::fromStdString(std::string(kErrorVaultNotFound)));
+    return;
+  }
+
+  VaultItem* existingItem = findVaultItem(vaultId, itemId);
+  if (!existingItem) {
+    qWarning() << "Item not found in vault for toggling favorite:"
+               << itemId.toString().c_str();
+    onEditItemError(QString::fromStdString(std::string(kErrorItemNotFound)));
+    return;
+  }
+
+  if (existingItem->isDeleted()) {
+    onEditItemError(QString::fromStdString(std::string(kErrorDeletedItem)));
+    return;
+  }
+
+  // Create a new item with the updated favorite state
+  VaultItem updatedItem;
+  try {
+    VaultItemModel model = existingItem->toModel(*vault);
+    model.setIsFavorite(isFavorite);
+    updatedItem = VaultItem::createFromModel(model, *vault);
+  } catch (const std::exception& e) {
+    qWarning() << "Failed to create vault item from model for favorite toggle:"
+               << e.what();
+    onEditItemError("Failed to update favorite: " +
+                    QString::fromStdString(e.what()));
+    return;
+  }
+
+  const auto nameHashOpt = vault->getItemNameHash(
+      QString::fromStdString(existingItem->getName()).toLower().toStdString());
+  if (!nameHashOpt) {
+    qWarning() << "Failed to compute name hash for item:"
+               << existingItem->getName().c_str();
+    onEditItemError("Failed to compute name hash for item.");
+    return;
+  }
+
+  auto updatedItemDto = dto::EditVaultItemRequest{
+      .id = updatedItem.getId(),
+      .vaultId = vaultId,
+      .protected_metadata = updatedItem.getEncryptedMetadata(),
+      .protected_data = updatedItem.getEncryptedData(),
+      .name_hash = *nameHashOpt};
+
+  m_session->putRequest<void>(
+      QString("/api/v1/items/%1").arg(itemId.toString().c_str()),
+      updatedItemDto,
+      [this, vaultId, itemId, isFavorite](
+          RequestError error, const ResponseMessage<void>& response) {
+        if (error != RequestError::None) {
+          onEditItemError(QString::fromStdString(
+              response.error.value_or(requestErrorToString(error))));
+          return;
+        }
+
+        onFavoriteToggled(vaultId, itemId, isFavorite);
+      });
+}
+
+void VaultManager::onFavoriteToggled(uuid vaultId, uuid itemId,
+                                     bool isFavorite) noexcept {
+  if (auto* item = findVaultItem(vaultId, itemId)) {
+    item->setFavorite(isFavorite);
+  }
+  emit favoriteToggled(vaultId, itemId, isFavorite);
+}
+
 void VaultManager::onFetchVaultListResult(
     RequestError error,
     const ResponseMessage<std::vector<dto::Vault>>& response) {

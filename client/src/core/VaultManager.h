@@ -50,6 +50,8 @@ class VaultManager : public QObject {
   void editItemFailed(const QString& errorMessage);
   void itemEdited(ikea400::uuid vaultId, const VaultItem& item,
                   const VaultItemModel& itemModel);
+  void favoriteToggled(ikea400::uuid vaultId, ikea400::uuid itemId,
+                       bool isFavorite);
 
  public slots:
   void updateVaultList();
@@ -59,6 +61,8 @@ class VaultManager : public QObject {
   void addItem(const VaultItemModel& item, ikea400::uuid vaultId);
   void openItem(ikea400::uuid vaultId, ikea400::uuid itemId);
   void editItem(const VaultItemModel& item, ikea400::uuid vaultId);
+  void toggleFavorite(ikea400::uuid vaultId, ikea400::uuid itemId,
+                      bool isFavorite);
 
  private:
   void onFetchVaultListResult(
@@ -130,6 +134,8 @@ class VaultManager : public QObject {
                        bool stopWorking = true) noexcept;
   void onEditItemSuccess(ikea400::uuid vaultId, const VaultItem& item,
                          const VaultItemModel& itemModel) noexcept;
+  void onFavoriteToggled(ikea400::uuid vaultId, ikea400::uuid itemId,
+                         bool isFavorite) noexcept;
   void onEditItemSuccess(ikea400::uuid vaultId, const VaultItem& item) noexcept;
 
   using VaultMap = std::unordered_map<ikea400::uuid, Vault>;

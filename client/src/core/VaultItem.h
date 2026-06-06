@@ -22,15 +22,9 @@ class VaultItem {
   static VaultItem loadFromSummary(
       const ikea400::dto::VaultItemSummary& summary, const Vault& vault);
 
-  [[nodiscard]] ikea400::uuid getId() const noexcept {
-    return m_id;
-  }
-  [[nodiscard]] ikea400::uuid getVaultId() const noexcept {
-    return m_vaultId;
-  }
-  [[nodiscard]] const std::string& getName() const noexcept {
-    return m_name;
-  }
+  [[nodiscard]] ikea400::uuid getId() const noexcept { return m_id; }
+  [[nodiscard]] ikea400::uuid getVaultId() const noexcept { return m_vaultId; }
+  [[nodiscard]] const std::string& getName() const noexcept { return m_name; }
   [[nodiscard]] const std::string& getCustomIcon() const noexcept {
     return m_customIcon;
   }
@@ -44,12 +38,10 @@ class VaultItem {
     return m_updatedAt;
   }
 
-  [[nodiscard]] std::span<const uint8_t> getEncryptedMetadata()
-      const noexcept {
+  [[nodiscard]] std::span<const uint8_t> getEncryptedMetadata() const noexcept {
     return m_encrypted_metadata;
   }
-  [[nodiscard]] std::span<const uint8_t> getEncryptedData()
-      const noexcept {
+  [[nodiscard]] std::span<const uint8_t> getEncryptedData() const noexcept {
     return m_encrypted_data;
   }
 
@@ -59,6 +51,8 @@ class VaultItem {
     m_encrypted_data.assign_range(encryptedData);
     m_hasData = true;
   }
+
+  void setFavorite(bool isFavorite) { m_isFavorite = isFavorite; }
 
   [[nodiscard]] VaultItemModel toModel(const Vault& vault) const;
 

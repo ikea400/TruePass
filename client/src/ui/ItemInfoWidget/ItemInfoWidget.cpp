@@ -9,6 +9,8 @@ ItemInfoWidget::ItemInfoWidget(QWidget* parent) : QWidget(parent) {
 
   connect(m_ui.editButton, &QPushButton::clicked, this,
           &ItemInfoWidget::onEditClicked);
+  connect(m_ui.favoriteButton, &QPushButton::clicked, this,
+          &ItemInfoWidget::onFavoriteClicked);
   connect(m_editDialog, &EditItemDialog::itemUpdated, this,
           &ItemInfoWidget::onItemUpdated);
 
@@ -22,12 +24,14 @@ void ItemInfoWidget::openEmptyPage() {
   resetLabel();
   enableButtons(false);
   stopLoadingAnimation();
+  updateFavoriteButtonIcon(false);
 }
 void ItemInfoWidget::openLoadingPage() {
   m_ui.infoStackedWidget->setCurrentWidget(m_ui.loadingPage);
   resetLabel();
   enableButtons(false);
   startLoadingAnimation();
+  updateFavoriteButtonIcon(false);
 }
 
 void ItemInfoWidget::openErrorPage(const QString& error) {
@@ -36,6 +40,7 @@ void ItemInfoWidget::openErrorPage(const QString& error) {
   resetLabel();
   enableButtons(false);
   stopLoadingAnimation();
+  updateFavoriteButtonIcon(false);
 }
 
 void ItemInfoWidget::openItemInfoPage(const ikea400::uuid& vaultId,
@@ -44,6 +49,7 @@ void ItemInfoWidget::openItemInfoPage(const ikea400::uuid& vaultId,
   m_currentModel = item;
   m_ui.itemNameLabel->setText(item.getName());
   m_ui.itemNoteEdit->setPlainText(item.getNote());
+  updateFavoriteButtonIcon(item.isFavorite());
 
   const auto visitor = ikea400::utils::overloads{
       [this](const LoginItemDetailModel& loginDetails) {
@@ -69,6 +75,25 @@ void ItemInfoWidget::onEditClicked() {
   m_editDialog->show();
 }
 
+void ItemInfoWidget::onFavoriteClicked() {
+  if (!m_currentModel.has_value()) return;
+
+  const auto& item = m_currentModel.value();
+
+  ikea400::uuid itemId =
+      ikea400::uuid::fromString<false>(item.getId().toStdString());
+  if (itemId.isNull()) {
+    qWarning() << "Invalid item ID for favorite toggle";
+    return;
+  }
+
+  bool newFavoriteState = !item.isFavorite();
+  m_currentModel->setIsFavorite(newFavoriteState);
+  updateFavoriteButtonIcon(newFavoriteState);
+
+  emit toggleFavorite(m_currentVaultId, itemId, newFavoriteState);
+}
+
 void ItemInfoWidget::onItemUpdated(const VaultItemModel& updatedItem) {
   emit editItem(updatedItem, m_currentVaultId);
 }
@@ -89,6 +114,21 @@ void ItemInfoWidget::onItemEdited(const ikea400::uuid& vaultId,
 
 void ItemInfoWidget::onEditItemError(const QString& error) {
   m_editDialog->onEditItemError(error);
+}
+
+void ItemInfoWidget::onFavoriteToggled(const ikea400::uuid& vaultId,
+                                       const ikea400::uuid& itemId,
+                                       bool isFavorite) {
+  if (vaultId != m_currentVaultId) return;
+
+  if (!m_currentModel.has_value() ||
+      m_currentModel->getId() != QString::fromStdString(itemId.toString())) {
+    return;
+  }
+
+  // Update the model with the new favorite state
+  m_currentModel->setIsFavorite(isFavorite);
+  updateFavoriteButtonIcon(isFavorite);
 }
 
 void ItemInfoWidget::resetLabel() {
@@ -113,6 +153,7 @@ void ItemInfoWidget::updateItemDisplay() {
 
   m_ui.itemNameLabel->setText(m_currentModel->getName());
   m_ui.itemNoteEdit->setPlainText(m_currentModel->getNote());
+  updateFavoriteButtonIcon(m_currentModel->isFavorite());
   const auto visitor = ikea400::utils::overloads{
       [this](const LoginItemDetailModel& loginDetails) {
         m_ui.loginPage->setLoginDetails(loginDetails);
@@ -122,4 +163,16 @@ void ItemInfoWidget::updateItemDisplay() {
       },
       [this](const auto&) { openErrorPage("Unsupported item type"); }};
   std::visit(visitor, m_currentModel->getDetails());
+}
+
+void ItemInfoWidget::updateFavoriteButtonIcon(bool isFavorite) {
+  QIcon icon;
+  if (isFavorite) {
+    icon.addFile(QString::fromUtf8(":/icons/icons/star-full.svg"), QSize(),
+                 QIcon::Mode::Normal, QIcon::State::Off);
+  } else {
+    icon.addFile(QString::fromUtf8(":/icons/icons/star.svg"), QSize(),
+                 QIcon::Mode::Normal, QIcon::State::Off);
+  }
+  m_ui.favoriteButton->setIcon(icon);
 }

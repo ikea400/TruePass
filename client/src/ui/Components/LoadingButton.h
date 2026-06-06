@@ -24,6 +24,8 @@ class LoadingButton : public QPushButton {
   void startLoading() noexcept;
   void stopLoading() noexcept;
 
+  void setMinClickDelay(int delayMs) noexcept;
+
  signals:
   void loadingStarted();
 
@@ -36,6 +38,8 @@ class LoadingButton : public QPushButton {
  private:
   QString m_originalText;
   bool m_loading;
+  QTimer m_clickDelayTimer;
+  int m_minClickDelayMs;
 
   LottieAnimation m_animation;
 };

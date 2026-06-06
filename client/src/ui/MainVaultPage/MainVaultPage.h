@@ -30,10 +30,13 @@ class MainVaultPage : public QMainWindow {
   void addItem(const VaultItemModel& item, const ikea400::uuid& vaultId);
   void openItem(const ikea400::uuid& vaultId, const ikea400::uuid& itemId);
   void editItem(const VaultItemModel& item, const ikea400::uuid& vaultId);
+  void toggleFavorite(const ikea400::uuid& vaultId, const ikea400::uuid& itemId,
+                      bool isFavorite);
 
  public slots:
   void onNewVaultButtonClicked();
   void onShow();
+  void onFilterCategoryChanged(int currentRow);
   void onSearchTextChanged(const QString& text);
   void onVaultListUpdated();
   void onVaultListUpdateFailed(const QString& error);
@@ -50,6 +53,10 @@ class MainVaultPage : public QMainWindow {
                        const ikea400::uuid& itemId, const QString& error);
   void onEditItemError(const QString& error);
   void onItemEdited(const ikea400::uuid& vaultId, const VaultItemModel& item);
+  void onToggleFavorite(const ikea400::uuid& vaultId,
+                        const ikea400::uuid& itemId, bool isFavorite);
+  void onFavoriteToggled(const ikea400::uuid& vaultId,
+                         const ikea400::uuid& itemId, bool isFavorite);
 
   ikea400::uuid getSelectedVaultId() const;
 
