@@ -24,12 +24,14 @@ void ItemInfoWidget::openEmptyPage() {
   resetLabel();
   enableButtons(false);
   stopLoadingAnimation();
+  updateFavoriteButtonIcon(false);
 }
 void ItemInfoWidget::openLoadingPage() {
   m_ui.infoStackedWidget->setCurrentWidget(m_ui.loadingPage);
   resetLabel();
   enableButtons(false);
   startLoadingAnimation();
+  updateFavoriteButtonIcon(false);
 }
 
 void ItemInfoWidget::openErrorPage(const QString& error) {
@@ -38,6 +40,7 @@ void ItemInfoWidget::openErrorPage(const QString& error) {
   resetLabel();
   enableButtons(false);
   stopLoadingAnimation();
+  updateFavoriteButtonIcon(false);
 }
 
 void ItemInfoWidget::openItemInfoPage(const ikea400::uuid& vaultId,

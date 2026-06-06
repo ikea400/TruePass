@@ -470,7 +470,6 @@ void VaultManager::toggleFavorite(uuid vaultId, uuid itemId, bool isFavorite) {
   VaultItem updatedItem;
   try {
     VaultItemModel model = existingItem->toModel(*vault);
-    model.setIsFavorite(isFavorite);
     updatedItem = VaultItem::createFromModel(model, *vault);
   } catch (const std::exception& e) {
     qWarning() << "Failed to create vault item from model for favorite toggle:"

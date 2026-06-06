@@ -47,8 +47,8 @@ static std::vector<uint8_t> serializeMetadata(
   dto::VaultItemMetadataDto metadataDto{.name = model.getName().toStdString(),
                                         .version = 1,
                                         .type = type,
-                                        .is_deleted = false,
-                                        .is_favorite = false,
+                                        .is_deleted = model.isDeleted(),
+                                        .is_favorite = model.isFavorite(),
                                         .custom_icon = std::move(custom_icon)};
 
   std::vector<uint8_t> buffer;
@@ -228,7 +228,8 @@ VaultItem VaultItem::createFromModel(const VaultItemModel& model,
   item.m_name = model.getName().toStdString();
   item.m_customIcon = customIcon;
   item.m_type = type;
-  item.m_isDeleted = item.m_isFavorite = false;
+  item.m_isFavorite = model.isFavorite();
+  item.m_isDeleted = model.isDeleted();
   item.m_encrypted_data =
       EnvelopeCodec::encode(serializedData, vault.getVaultKey(),
                             kVaultItemDataBindingKey, item.m_id.bytes());
@@ -295,6 +296,7 @@ VaultItemModel VaultItem::toModel(const Vault& vault) const {
   model.setName(QString::fromStdString(m_name));
   model.setId(QString::fromStdString(m_id.toString()));
   model.setIsFavorite(m_isFavorite);
+  model.setIsDeleted(m_isDeleted);
 
   switch (m_type) {
     case dto::VaultItemType::Login: {
