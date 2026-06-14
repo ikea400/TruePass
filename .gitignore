@@ -366,6 +366,7 @@ FodyWeavers.xsd
 server/config.json
 
 # Certificates and keys
+server/certs/
 *.pem
 *.crt
 *.key
