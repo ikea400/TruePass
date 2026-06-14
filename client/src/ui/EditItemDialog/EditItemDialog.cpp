@@ -9,11 +9,13 @@
 #include <variant>
 
 #include "../../model/LoginItemDetailModel.h"
+#include "../../model/IdentityItemDetailModel.h"
+#include "../../model/NoteItemDetailModel.h"
 #include "../../model/VaultItemModel.h"
 
 using namespace ikea400;
 
-EditItemDialog::EditItemDialog(QWidget *parent) : QDialog(parent) {
+EditItemDialog::EditItemDialog(QWidget* parent) : QDialog(parent) {
   ui.setupUi(this);
 
   connect(ui.confirmButton, &QPushButton::clicked, this,
@@ -27,13 +29,13 @@ EditItemDialog::EditItemDialog(QWidget *parent) : QDialog(parent) {
 
 EditItemDialog::~EditItemDialog() {}
 
-void EditItemDialog::setModel(const VaultItemModel &model) {
+void EditItemDialog::setModel(const VaultItemModel& model) {
   m_model = model;
   ui.nameInput->setText(model.getName());
   ui.noteInput->setPlainText(model.getNote());
 
-  ikea400::utils::overloads visitor{
-      [this](LoginItemDetailModel &loginDetails) {
+  const auto visitor = ikea400::utils::overloads{
+      [this](LoginItemDetailModel& loginDetails) {
         ui.itemStackedWidget->setCurrentWidget(ui.loginPage);
         ui.loginPage->setModel(&loginDetails);
       },
@@ -41,7 +43,14 @@ void EditItemDialog::setModel(const VaultItemModel &model) {
         ui.itemStackedWidget->setCurrentWidget(ui.cardPage);
         ui.cardPage->setModel(&cardDetails);
       },
-  };
+      [this](IdentityItemDetailModel& identityDetails) {
+        ui.itemStackedWidget->setCurrentWidget(ui.identityPage);
+        ui.identityPage->setModel(&identityDetails);
+      },
+      [this](NoteItemDetailModel& noteDetails) {
+        ui.itemStackedWidget->setCurrentWidget(ui.notePage);
+        ui.notePage->setModel(&noteDetails);
+      }};
 
   std::visit(visitor, m_model.getDetails());
 
@@ -72,7 +81,7 @@ void EditItemDialog::onEditItemError(const QString& error) {
   updateError(error);
 }
 
-QString EditItemDialog::validateName(const QString &name) {
+QString EditItemDialog::validateName(const QString& name) {
   const auto validationResult =
       validation::validateVaultItemName(name.toStdString());
   if (validationResult.isValid()) {
@@ -82,7 +91,7 @@ QString EditItemDialog::validateName(const QString &name) {
   }
 }
 
-void EditItemDialog::updateError(const QString &error) {
+void EditItemDialog::updateError(const QString& error) {
   ui.errorLabel->setText(error);
   ui.errorWidget->setHidden(error.isEmpty());
 }

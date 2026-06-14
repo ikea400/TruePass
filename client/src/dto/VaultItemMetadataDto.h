@@ -8,7 +8,7 @@
 
 namespace ikea400::dto {
 
-enum class VaultItemType : uint8_t { Login, Card };
+enum class VaultItemType : uint8_t { Login, Card, Identity, Note };
 
 Q_DECLARE_METATYPE(ikea400::dto::VaultItemType)
 

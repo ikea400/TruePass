@@ -5,10 +5,13 @@
 #include <variant>
 
 #include "CardItemDetailModel.h"
+#include "IdentityItemDetailModel.h"
 #include "LoginItemDetailModel.h"
+#include "NoteItemDetailModel.h"
 
 using VaultItemDetailsVariant =
-    std::variant<LoginItemDetailModel, CardItemDetailModel>;
+    std::variant<LoginItemDetailModel, CardItemDetailModel,
+                 IdentityItemDetailModel, NoteItemDetailModel>;
 
 class VaultItemModel {
  public:

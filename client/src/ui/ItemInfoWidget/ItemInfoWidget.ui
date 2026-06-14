@@ -63,7 +63,7 @@
       <item>
        <widget class="QStackedWidget" name="infoStackedWidget">
         <property name="currentIndex">
-         <number>4</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="emptyPage"/>
         <widget class="QWidget" name="loadingPage">
@@ -162,6 +162,8 @@ border-radius: 8px;</string>
         </widget>
         <widget class="ViewLoginItem" name="loginPage"/>
         <widget class="ViewCardItem" name="cardPage"/>
+        <widget class="ViewIdentityItem" name="identityPage"/>
+        <widget class="ViewNoteItem" name="notePage"/>
        </widget>
       </item>
      </layout>
@@ -289,6 +291,18 @@ border-radius: 8px;</string>
    <class>ViewCardItem</class>
    <extends>QWidget</extends>
    <header>../ViewCardItem/ViewCardItem.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ViewIdentityItem</class>
+   <extends>QWidget</extends>
+   <header>../ViewIdentityItem/ViewIdentityItem.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ViewNoteItem</class>
+   <extends>QWidget</extends>
+   <header>../ViewNoteItem/ViewNoteItem.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

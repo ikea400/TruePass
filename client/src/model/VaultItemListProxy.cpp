@@ -57,6 +57,16 @@ bool VaultItemListProxy::filterAcceptsItemType(const QModelIndex& index) const {
       return typeData.isValid() &&
              typeData.value<VaultItemType>() == VaultItemType::Card;
     }
+    case VaultItemFilterType::Identity: {
+      QVariant typeData = sourceModel()->data(index, TypeRole);
+      return typeData.isValid() &&
+             typeData.value<VaultItemType>() == VaultItemType::Identity;
+    }
+    case VaultItemFilterType::Note: {
+      QVariant typeData = sourceModel()->data(index, TypeRole);
+      return typeData.isValid() &&
+             typeData.value<VaultItemType>() == VaultItemType::Note;
+    }
   }
 
   return false;

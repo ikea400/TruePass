@@ -5,7 +5,9 @@
 IconProvider::IconProvider(QObject* parent)
     : QObject(parent),
       m_defaultLoginIcon(":/icons/icons/login.svg"),
-      m_defaultCardIcon(":/icons/icons/card.svg") 
+      m_defaultCardIcon(":/icons/icons/card.svg"),
+      m_defaultIdentityIcon(":/icons/icons/idcard.svg"),
+      m_defaultNoteIcon(":/icons/icons/note.svg")
 {
   connect(FaviconManager::instance(), &FaviconManager::iconUpdated, this,
           &IconProvider::iconUpdated);
@@ -25,6 +27,12 @@ QIcon IconProvider::getItemIcon(ikea400::dto::VaultItemType type,
         return getCardItemIcon(customIcon);
       }
       return m_defaultCardIcon;
+    } break;
+    case ikea400::dto::VaultItemType::Identity: {
+      return m_defaultIdentityIcon;
+    } break;
+    case ikea400::dto::VaultItemType::Note: {
+      return m_defaultNoteIcon;
     } break;
 
     default:

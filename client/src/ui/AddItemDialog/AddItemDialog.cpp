@@ -3,15 +3,15 @@
 #include <utils/validation.h>
 
 #include "../../model/LoginItemDetailModel.h"
+#include "../../model/NoteItemDetailModel.h"
 
-enum class VaultItemType { Login, Card };
+enum class VaultItemType { Login, Card, Identity, Note };
 Q_DECLARE_METATYPE(VaultItemType);
 
-AddItemDialog::AddItemDialog(QWidget *parent) : QDialog(parent) {
+AddItemDialog::AddItemDialog(QWidget* parent) : QDialog(parent) {
   ui.setupUi(this);
 
-  connect(this, &AddItemDialog::closing, ui.loginPage,
-          &EditLoginItem::onClose);
+  connect(this, &AddItemDialog::closing, ui.loginPage, &EditLoginItem::onClose);
 
   connect(ui.itemTypeBox, &QComboBox::currentIndexChanged, this,
           &AddItemDialog::onCurrentIndexChanged);
@@ -28,6 +28,9 @@ AddItemDialog::AddItemDialog(QWidget *parent) : QDialog(parent) {
 
   ui.itemTypeBox->addItem("Login", QVariant::fromValue(VaultItemType::Login));
   ui.itemTypeBox->addItem("Card", QVariant::fromValue(VaultItemType::Card));
+  ui.itemTypeBox->addItem("Identity",
+                          QVariant::fromValue(VaultItemType::Identity));
+  ui.itemTypeBox->addItem("Note", QVariant::fromValue(VaultItemType::Note));
 
   ui.itemNameInput->setMaxLength(validation::kMaxVaultItemNameLength);
   ui.noteInput->setMaxLength(validation::kMaxVaultItemNoteLength);
@@ -61,6 +64,18 @@ void AddItemDialog::onCurrentIndexChanged(int index) {
       ui.cardPage->setModel(m_model.getDetails<CardItemDetailModel>());
       qDebug() << "Card item type selected.";
       break;
+    case VaultItemType::Identity:
+      m_model.resetType<IdentityItemDetailModel>();
+      ui.stackedWidget->setCurrentWidget(ui.identityPage);
+      ui.identityPage->setModel(m_model.getDetails<IdentityItemDetailModel>());
+      qDebug() << "Identity item type selected.";
+      break;
+    case VaultItemType::Note:
+      m_model.resetType<NoteItemDetailModel>();
+      ui.stackedWidget->setCurrentWidget(ui.notePage);
+      ui.notePage->setModel(m_model.getDetails<NoteItemDetailModel>());
+      qDebug() << "Note item type selected.";
+      break;
     default:
       qWarning() << "Unknown item type selected!";
       break;
@@ -80,7 +95,7 @@ void AddItemDialog::onConfirmClicked() {
   emit addItem(m_model);
 }
 
-void AddItemDialog::onNameChanged(const QString &name) {
+void AddItemDialog::onNameChanged(const QString& name) {
   if (!ui.nameError->text().isEmpty()) validateName();
 
   m_model.setName(ui.itemNameInput->text().trimmed());
@@ -96,7 +111,7 @@ void AddItemDialog::onNoteChanged() {
   m_model.setNote(note);
 }
 
-void AddItemDialog::onAddItemError(const QString &error) {
+void AddItemDialog::onAddItemError(const QString& error) {
   updateGlobalError(error);
   ui.confirmButton->stopLoading();
 }
@@ -121,15 +136,15 @@ void AddItemDialog::validateName() {
     updateNameError("");
 }
 
-void AddItemDialog::updateNameError(const QString &error) {
+void AddItemDialog::updateNameError(const QString& error) {
   ui.nameError->setText(error);
 }
 
-void AddItemDialog::updateGlobalError(const QString &error) {
+void AddItemDialog::updateGlobalError(const QString& error) {
   ui.globalError->setText(error);
 }
 
-void AddItemDialog::closeEvent(QCloseEvent *e) {
+void AddItemDialog::closeEvent(QCloseEvent* e) {
   QDialog::closeEvent(e);
   m_model = VaultItemModel();
 

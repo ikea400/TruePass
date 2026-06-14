@@ -345,6 +345,6 @@
   ],
   //custom_config: custom configuration for users. This object can be get by the app().getCustomConfig() method.
   "custom_config": {
-    "opaque_setup": "b64:FLPviokIhwH0cnaYSqxCA+1/3snmvFFJqKP8xmMDp+XDQJhpYZal2nGQ26p3CC1BBsQ3VloPMgjfLBCsEuSfNZlRTCdZygoH9O0a43uEb3oadXxi5fbvL4TX3h5RbXkM6gS+FTSG+26Iz7M1eSomKlQ50IMYFVGaItcOd/ElOSc="
+    "opaque_setup": "<your_opaque_setup_base64_here>"
   }
 }

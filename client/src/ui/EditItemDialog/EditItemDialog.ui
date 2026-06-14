@@ -124,6 +124,8 @@ border-radius: 8px;</string>
      </property>
      <widget class="EditLoginItem" name="loginPage"/>
      <widget class="EditCardItem" name="cardPage"/>
+     <widget class="EditIdentityItem" name="identityPage"/>
+     <widget class="EditNoteItem" name="notePage"/>
      <widget class="QWidget" name="emptyPage"/>
     </widget>
    </item>
@@ -210,6 +212,18 @@ border-radius: 8px;</string>
    <class>EditCardItem</class>
    <extends>QWidget</extends>
    <header>../EditCardItem/EditCardItem.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>EditIdentityItem</class>
+   <extends>QWidget</extends>
+   <header>../EditIdentityItem/EditIdentityItem.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>EditNoteItem</class>
+   <extends>QWidget</extends>
+   <header>../EditNoteItem/EditNoteItem.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

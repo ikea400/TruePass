@@ -16,10 +16,14 @@
 #include <vector>
 
 #include "../dto/CardItemDto.h"
+#include "../dto/IdentityItemDto.h"
 #include "../dto/LoginItemDto.h"
+#include "../dto/NoteItemDto.h"
 #include "../dto/VaultItemDetailsBase.h"
 #include "../dto/VaultItemMetadataDto.h"
+#include "../model/IdentityItemDetailModel.h"
 #include "../model/LoginItemDetailModel.h"
+#include "../model/NoteItemDetailModel.h"
 #include "../model/VaultItemModel.h"
 #include "CardValidator.h"
 #include "EnvelopeCodec.h"
@@ -39,6 +43,14 @@ constexpr ikea400::dto::VaultItemType getVaultType<LoginItemDetailModel>() {
 template <>
 constexpr ikea400::dto::VaultItemType getVaultType<CardItemDetailModel>() {
   return ikea400::dto::VaultItemType::Card;
+}
+template <>
+constexpr ikea400::dto::VaultItemType getVaultType<IdentityItemDetailModel>() {
+  return ikea400::dto::VaultItemType::Identity;
+}
+template <>
+constexpr ikea400::dto::VaultItemType getVaultType<NoteItemDetailModel>() {
+  return ikea400::dto::VaultItemType::Note;
 }
 
 static std::vector<uint8_t> serializeMetadata(
@@ -117,6 +129,57 @@ static std::vector<uint8_t> serializeData(
   return serializeData(cardDto);
 }
 
+static std::vector<uint8_t> serializeData(
+    const VaultItemModel& model,
+    const IdentityItemDetailModel& identityDetails) {
+  dto::IdentityItemDto identityDto{
+      .base = VaultItemDetailsBase{.note = model.getNote().toStdString()},
+      .first_name = identityDetails.getFirstName().toStdString(),
+      .last_name = identityDetails.getLastName().toStdString(),
+      .address = identityDetails.getAddress().toStdString(),
+      .email = identityDetails.getEmail().toStdString(),
+      .date_of_birth = identityDetails.getDateOfBirth().toStdString(),
+      .username = identityDetails.getUsername().toStdString(),
+  };
+
+  return serializeData(identityDto);
+}
+
+static std::vector<uint8_t> serializeData(
+    const VaultItemModel& model,
+    const NoteItemDetailModel& noteDetails) {
+  std::vector<dto::CustomFieldDto> customFields;
+  for (const auto& field : noteDetails.getCustomFields()) {
+    dto::FieldTypeDto typeDto;
+    std::variant<std::string, bool> valueDto;
+
+    if (field.type == NoteItemDetailModel::FieldType::Password) {
+      typeDto = dto::FieldTypeDto::Password;
+      valueDto = std::holds_alternative<QString>(field.value) ? std::get<QString>(field.value).toStdString() : "";
+    } else if (field.type == NoteItemDetailModel::FieldType::Boolean) {
+      typeDto = dto::FieldTypeDto::Boolean;
+      valueDto = std::holds_alternative<bool>(field.value) ? std::get<bool>(field.value) : false;
+    } else {
+      typeDto = dto::FieldTypeDto::Text;
+      valueDto = std::holds_alternative<QString>(field.value) ? std::get<QString>(field.value).toStdString() : "";
+    }
+
+    customFields.push_back({
+        .name = field.name.toStdString(),
+        .type = typeDto,
+        .value = std::move(valueDto)
+    });
+  }
+
+  dto::NoteItemDto noteDto{
+      .base = VaultItemDetailsBase{.note = model.getNote().toStdString()},
+      .note_content = noteDetails.getNoteContent().toStdString(),
+      .custom_fields = std::move(customFields)
+  };
+
+  return serializeData(noteDto);
+}
+
 template <typename T>
 T deserializeData(const std::vector<uint8_t>& decryptedData) {
   T data;
@@ -151,6 +214,48 @@ static std::pair<CardItemDetailModel, VaultItemDetailsBase> deserializeCardData(
   details.setBillingAddress(QString::fromStdString(cardDto.billing_address));
   details.setExpirationDate(cardDto.expiry_month, cardDto.expiry_year);
   return std::make_pair(details, cardDto.base);
+}
+
+static std::pair<IdentityItemDetailModel, VaultItemDetailsBase>
+deserializeIdentityData(const std::vector<uint8_t>& decryptedData) {
+  dto::IdentityItemDto identityDto =
+      deserializeData<dto::IdentityItemDto>(decryptedData);
+  IdentityItemDetailModel details;
+  details.setFirstName(QString::fromStdString(identityDto.first_name));
+  details.setLastName(QString::fromStdString(identityDto.last_name));
+  details.setAddress(QString::fromStdString(identityDto.address));
+  details.setEmail(QString::fromStdString(identityDto.email));
+  details.setDateOfBirth(QString::fromStdString(identityDto.date_of_birth));
+  details.setUsername(QString::fromStdString(identityDto.username));
+  return std::make_pair(details, identityDto.base);
+}
+
+static std::pair<NoteItemDetailModel, VaultItemDetailsBase>
+deserializeNoteData(const std::vector<uint8_t>& decryptedData) {
+  dto::NoteItemDto noteDto =
+      deserializeData<dto::NoteItemDto>(decryptedData);
+  NoteItemDetailModel details;
+  details.setNoteContent(QString::fromStdString(noteDto.note_content));
+
+  QList<NoteItemDetailModel::CustomField> customFields;
+  for (const auto& field : noteDto.custom_fields) {
+    NoteItemDetailModel::CustomField f;
+    f.name = QString::fromStdString(field.name);
+
+    if (field.type == dto::FieldTypeDto::Password) {
+      f.type = NoteItemDetailModel::FieldType::Password;
+      f.value = std::holds_alternative<std::string>(field.value) ? QString::fromStdString(std::get<std::string>(field.value)) : QString("");
+    } else if (field.type == dto::FieldTypeDto::Boolean) {
+      f.type = NoteItemDetailModel::FieldType::Boolean;
+      f.value = std::holds_alternative<bool>(field.value) ? std::get<bool>(field.value) : false;
+    } else {
+      f.type = NoteItemDetailModel::FieldType::Text;
+      f.value = std::holds_alternative<std::string>(field.value) ? QString::fromStdString(std::get<std::string>(field.value)) : QString("");
+    }
+    customFields.append(f);
+  }
+  details.setCustomFields(customFields);
+  return std::make_pair(details, noteDto.base);
 }
 
 static std::optional<std::string> getCustomIconFromDetails(
@@ -307,6 +412,18 @@ VaultItemModel VaultItem::toModel(const Vault& vault) const {
     case dto::VaultItemType::Card: {
       auto [cardDetails, baseDetails] = deserializeCardData(decryptedData);
       model.set(std::move(cardDetails));
+      model.setNote(QString::fromStdString(baseDetails.note));
+    } break;
+    case dto::VaultItemType::Identity: {
+      auto [identityDetails, baseDetails] =
+          deserializeIdentityData(decryptedData);
+      model.set(std::move(identityDetails));
+      model.setNote(QString::fromStdString(baseDetails.note));
+    } break;
+    case dto::VaultItemType::Note: {
+      auto [noteDetails, baseDetails] =
+          deserializeNoteData(decryptedData);
+      model.set(std::move(noteDetails));
       model.setNote(QString::fromStdString(baseDetails.note));
     } break;
     default:

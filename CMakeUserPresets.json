@@ -11,7 +11,7 @@
       },
       "inherits": [
         "Qt-Default",
-        "vcpkg"
+        "vcpkg-user"
       ]
     },
     {
@@ -24,7 +24,7 @@
       },
       "inherits": [
         "Qt-Default",
-        "vcpkg"
+        "vcpkg-user"
       ]
     },
     {
@@ -54,11 +54,19 @@
           "checksum": "D31nBlSbTiZ7oDLEPeEvCN62I/A="
         }
       }
+    },
+    {
+      "hidden": true,
+      "name": "vcpkg-user",
+      "inherits": "vcpkg",
+      "environment": {
+        "VCPKG_ROOT": "C:/vcpkg/vcpkg"
+      }
     }
   ],
   "vendor": {
     "qt-project.org/Presets": {
-      "checksum": "mcxKe7nZQ0oYMc+Z35AFoXppjR0="
+      "checksum": "F1MqRJN+xpq04keYOIobMNdcPHk="
     }
   }
 }

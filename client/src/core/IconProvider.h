@@ -23,4 +23,6 @@ class IconProvider : public QObject {
  private:
   QIcon m_defaultLoginIcon;
   QIcon m_defaultCardIcon;
+  QIcon m_defaultIdentityIcon;
+  QIcon m_defaultNoteIcon;
 };
