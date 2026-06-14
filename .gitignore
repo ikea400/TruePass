@@ -361,3 +361,12 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# TruePass specific files
+server/config.json
+
+# Certificates and keys
+*.pem
+*.crt
+*.key
+*.pfx

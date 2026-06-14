@@ -3,7 +3,7 @@
 
 #include "../dto/VaultItemMetadataDto.h"
 
-enum class VaultItemFilterType { All, Favorites, Deleted, Login, Card };
+enum class VaultItemFilterType { All, Favorites, Deleted, Login, Card, Identity, Note };
 
 class VaultItemListProxy : public QSortFilterProxyModel {
   Q_OBJECT

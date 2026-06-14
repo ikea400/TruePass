@@ -1,6 +1,8 @@
 #include "ItemInfoWidget.h"
 
 #include <utils/utils.h>
+#include "../../model/IdentityItemDetailModel.h"
+#include "../../model/NoteItemDetailModel.h"
 
 ItemInfoWidget::ItemInfoWidget(QWidget* parent) : QWidget(parent) {
   m_ui.setupUi(this);
@@ -60,7 +62,14 @@ void ItemInfoWidget::openItemInfoPage(const ikea400::uuid& vaultId,
         m_ui.infoStackedWidget->setCurrentWidget(m_ui.cardPage);
         m_ui.cardPage->setCardDetails(cardDetails);
       },
-      [this](const auto&) { openErrorPage("Unsupported item type"); }};
+      [this](const IdentityItemDetailModel& identityDetails) {
+        m_ui.infoStackedWidget->setCurrentWidget(m_ui.identityPage);
+        m_ui.identityPage->setIdentityDetails(identityDetails);
+      },
+      [this](const NoteItemDetailModel& noteDetails) {
+        m_ui.infoStackedWidget->setCurrentWidget(m_ui.notePage);
+        m_ui.notePage->setNoteDetails(noteDetails);
+      }};
 
   std::visit(visitor, item.getDetails());
 
@@ -161,7 +170,12 @@ void ItemInfoWidget::updateItemDisplay() {
       [this](const CardItemDetailModel& cardDetails) {
         m_ui.cardPage->setCardDetails(cardDetails);
       },
-      [this](const auto&) { openErrorPage("Unsupported item type"); }};
+      [this](const IdentityItemDetailModel& identityDetails) {
+        m_ui.identityPage->setIdentityDetails(identityDetails);
+      },
+      [this](const NoteItemDetailModel& noteDetails) {
+        m_ui.notePage->setNoteDetails(noteDetails);
+      }};
   std::visit(visitor, m_currentModel->getDetails());
 }
 

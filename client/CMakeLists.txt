@@ -98,9 +98,21 @@ set(PROJECT_SOURCES
     src/ui/EditItemDialog/EditItemDialog.cpp
     src/ui/EditItemDialog/EditItemDialog.h
     src/ui/EditItemDialog/EditItemDialog.ui
+    src/ui/EditIdentityItem/EditIdentityItem.cpp
+    src/ui/EditIdentityItem/EditIdentityItem.h
+    src/ui/EditIdentityItem/EditIdentityItem.ui
+    src/ui/EditNoteItem/EditNoteItem.cpp
+    src/ui/EditNoteItem/EditNoteItem.h
+    src/ui/EditNoteItem/EditNoteItem.ui
     src/ui/ViewCardItem/ViewCardItem.cpp
     src/ui/ViewCardItem/ViewCardItem.h
     src/ui/ViewCardItem/ViewCardItem.ui
+    src/ui/ViewIdentityItem/ViewIdentityItem.cpp
+    src/ui/ViewIdentityItem/ViewIdentityItem.h
+    src/ui/ViewIdentityItem/ViewIdentityItem.ui
+    src/ui/ViewNoteItem/ViewNoteItem.cpp
+    src/ui/ViewNoteItem/ViewNoteItem.h
+    src/ui/ViewNoteItem/ViewNoteItem.ui
     src/ui/Components/PasswordRevealButton.cpp
     src/ui/Components/PasswordRevealButton.h
     src/ui/Components/LoadingButton.cpp

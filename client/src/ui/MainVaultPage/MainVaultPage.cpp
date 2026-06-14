@@ -34,6 +34,15 @@ MainVaultPage::MainVaultPage(QWidget* parent) : QMainWindow(parent) {
   connect(m_ui.itemWidget, &ItemInfoWidget::toggleFavorite, this,
           &MainVaultPage::onToggleFavorite);
 
+  // Map filter categories to their corresponding enum value via Qt::UserRole.
+  // This decouples the slot logic from layout changes in the .ui file.
+  m_ui.categoryList_2->item(0)->setData(Qt::UserRole, static_cast<int>(VaultItemFilterType::All));
+  m_ui.categoryList_2->item(1)->setData(Qt::UserRole, static_cast<int>(VaultItemFilterType::Favorites));
+  m_ui.categoryList_2->item(4)->setData(Qt::UserRole, static_cast<int>(VaultItemFilterType::Login));
+  m_ui.categoryList_2->item(5)->setData(Qt::UserRole, static_cast<int>(VaultItemFilterType::Card));
+  m_ui.categoryList_2->item(6)->setData(Qt::UserRole, static_cast<int>(VaultItemFilterType::Identity));
+  m_ui.categoryList_2->item(7)->setData(Qt::UserRole, static_cast<int>(VaultItemFilterType::Note));
+
   setAttribute(Qt::WA_WState_ExplicitShowHide, true);
 }
 
@@ -63,27 +72,17 @@ void MainVaultPage::setVaultItemListModel(VaultItemListModel* model) {
 void MainVaultPage::onShow() { emit updateVaultList(); }
 
 void MainVaultPage::onFilterCategoryChanged(int currentRow) {
-  // These are currently hardcoded in the .ui file
-  constexpr int kCategoryAllItems = 0;
-  constexpr int kCategoryFavorited = 1;
+  QListWidgetItem* item = m_ui.categoryList_2->item(currentRow);
+  if (!item) return;
 
-  constexpr int kCategoryLogin = 4;
-  constexpr int kCategoryCard = 5;
-
-  switch (currentRow) {
-    case kCategoryFavorited:
-      m_vaultItemListProxy->setFilterType(VaultItemFilterType::Favorites);
-      break;
-    case kCategoryLogin:
-      m_vaultItemListProxy->setFilterType(VaultItemFilterType::Login);
-      break;
-    case kCategoryCard:
-      m_vaultItemListProxy->setFilterType(VaultItemFilterType::Card);
-      break;
-    default:
-      m_vaultItemListProxy->setFilterType(VaultItemFilterType::All);
-      break;
+  QVariant filterData = item->data(Qt::UserRole);
+  if (!filterData.isValid()) {
+    m_vaultItemListProxy->setFilterType(VaultItemFilterType::All);
+    return;
   }
+
+  auto filterType = static_cast<VaultItemFilterType>(filterData.toInt());
+  m_vaultItemListProxy->setFilterType(filterType);
 }
 
 void MainVaultPage::onSearchTextChanged(const QString& text) {
